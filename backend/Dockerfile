@@ -16,8 +16,8 @@ COPY . /app
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV SERVER_ROOT=public/
 
-# Instalar dependencias de producción de Composer
-RUN composer install --no-dev --optimize-autoloader
+# Instalar dependencias de producción de Composer optimizando memoria y descarga
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress
 
 # Configurar permisos correctos para Laravel
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache && \

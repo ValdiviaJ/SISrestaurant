@@ -5,6 +5,7 @@ services:
   - type: web
     name: restosuite-api
     env: docker
+    plan: free
     dockerfilePath: backend/Dockerfile
     dockerContext: backend
     envVars:
@@ -46,18 +47,12 @@ services:
           name: restosuite-db
           property: password
 
-      # Conexión a Redis (Para Caché y Colas)
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: restosuite-redis
-          property: connectionString
       - key: CACHE_DRIVER
-        value: redis
+        value: file
       - key: SESSION_DRIVER
-        value: redis
+        value: file
       - key: QUEUE_CONNECTION
-        value: redis
+        value: sync
 
       # Seguridad CORS - Permitirá solo peticiones desde tu frontend en Render
       - key: ALLOWED_ORIGINS
@@ -100,18 +95,12 @@ services:
         source: /*
         destination: /index.html
 
-  # ---------------------------------------------------------------------------
-  # 3. Redis Service
-  # ---------------------------------------------------------------------------
-  - type: redis
-    name: restosuite-redis
-    ipAllowList: [] # Solo accesible internamente por el backend
-
 # -----------------------------------------------------------------------------
-# 4. PostgreSQL Managed Database
+# 3. PostgreSQL Managed Database
 # -----------------------------------------------------------------------------
 databases:
   - name: restosuite-db
+    plan: free
     databaseName: restosuite_db
     user: restosuite_user
     ipAllowList: [] # Solo accesible internamente por el backend

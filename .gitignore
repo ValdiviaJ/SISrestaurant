@@ -1,0 +1,39 @@
+# ### Archivos de Sistema / IDEs ###
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ### BACKEND (Laravel) ###
+/backend/.env
+/backend/.env.backup
+/backend/.env.production
+/backend/vendor/
+/backend/node_modules/
+/backend/public/storage
+/backend/storage/*.key
+/backend/storage/framework/cache/data/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/storage/logs/*
+/backend/bootstrap/cache/*
+/backend/.phpunit.result.cache
+
+# ### FRONTEND (React + Vite) ###
+/frontend/node_modules/
+/frontend/dist/
+/frontend/dist-ssr/
+/frontend/*.local
+/frontend/.env
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+/frontend/.env.local
+/frontend/.eslintcache
+
+# ### Logs generales ###
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

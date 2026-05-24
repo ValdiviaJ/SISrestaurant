@@ -1,0 +1,114 @@
+services:
+  # ---------------------------------------------------------------------------
+  # 1. Backend (Laravel API Web Service)
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: restosuite-api
+    env: php
+    buildCommand: cd backend && composer install --no-dev --optimize-autoloader
+    # Ejecuta migraciones automáticamente en cada inicio antes de arrancar Nginx
+    startCommand: php backend/artisan migrate --force && heroku-php-nginx backend/public
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        fromService:
+          type: web
+          name: restosuite-api
+          property: host
+      - key: APP_KEY
+        generateValue: true # Genera automáticamente una clave criptográfica de 32 bytes
+      
+      # Conexión a Base de Datos (Mapeada automáticamente desde la base de datos de Render)
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: restosuite-db
+          property: host
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        fromDatabase:
+          name: restosuite-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: restosuite-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: restosuite-db
+          property: password
+
+      # Conexión a Redis (Para Caché y Colas)
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: restosuite-redis
+          property: connectionString
+      - key: CACHE_DRIVER
+        value: redis
+      - key: SESSION_DRIVER
+        value: redis
+      - key: QUEUE_CONNECTION
+        value: redis
+
+      # Seguridad CORS - Permitirá solo peticiones desde tu frontend en Render
+      - key: ALLOWED_ORIGINS
+        fromService:
+          type: web
+          name: restosuite-frontend
+          property: host
+
+    # -------------------------------------------------------------------------
+    # NOTA SOBRE IMÁGENES LOCALES (OPCIONAL - TIENE COSTO EXTRA EN RENDER):
+    # Si en el futuro quieres permitir subir imágenes locales sin usar enlaces,
+    # puedes descomentar las siguientes líneas para añadir un disco persistente.
+    # -------------------------------------------------------------------------
+    # disk:
+    #   name: restosuite-storage
+    #   mountPath: /var/www/backend/storage/app/public
+    #   sizeGB: 1
+
+  # ---------------------------------------------------------------------------
+  # 2. Frontend (Static Site - React + Vite)
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: restosuite-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      # Pasa automáticamente la URL del backend de Render al frontend al compilar
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: restosuite-api
+          property: host
+          # Se concatena automáticamente en el código del frontend (VITE_API_URL/api)
+          # pero si el frontend requiere explícitamente '/api' al final, puedes configurarlo
+          # en el panel web de Render manualmente como: https://tu-api.onrender.com/api
+    routes:
+      # Regla para evitar errores 404 de React Router al recargar páginas secundarias
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # ---------------------------------------------------------------------------
+  # 3. Redis Service
+  # ---------------------------------------------------------------------------
+  - type: redis
+    name: restosuite-redis
+    ipAllowList: [] # Solo accesible internamente por el backend
+
+# -----------------------------------------------------------------------------
+# 4. PostgreSQL Managed Database
+# -----------------------------------------------------------------------------
+databases:
+  - name: restosuite-db
+    databaseName: restosuite_db
+    user: restosuite_user
+    ipAllowList: [] # Solo accesible internamente por el backend

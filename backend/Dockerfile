@@ -3,6 +3,9 @@ FROM dunglas/frankenphp:1.1-php8.2-alpine
 # Instalar extensiones de PHP requeridas por Laravel, PostgreSQL y Redis
 RUN install-php-extensions pdo_pgsql pgsql redis bcmath xml zip pcntl opcache gd
 
+# Copiar Composer desde la imagen oficial
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 # Definir el directorio de trabajo dentro del contenedor
 WORKDIR /app
 

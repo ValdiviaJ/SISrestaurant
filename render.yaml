@@ -80,15 +80,9 @@ services:
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     envVars:
-      # Pasa automáticamente la URL del backend de Render al frontend al compilar
+      # URL pública de la API en Render para el navegador del cliente
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: restosuite-api
-          property: host
-          # Se concatena automáticamente en el código del frontend (VITE_API_URL/api)
-          # pero si el frontend requiere explícitamente '/api' al final, puedes configurarlo
-          # en el panel web de Render manualmente como: https://tu-api.onrender.com/api
+        value: https://restosuite-api.onrender.com/api
     routes:
       # Regla para evitar errores 404 de React Router al recargar páginas secundarias
       - type: rewrite

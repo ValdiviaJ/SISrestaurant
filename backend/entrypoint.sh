@@ -28,5 +28,8 @@ if (!\$dbReady) {
 echo "Ejecutando php artisan migrate --force..."
 php artisan migrate --force
 
+echo "Ejecutando php artisan db:seed --force..."
+php artisan db:seed --force
+
 echo "Arrancando FrankenPHP..."
 exec frankenphp run --config /app/Caddyfile

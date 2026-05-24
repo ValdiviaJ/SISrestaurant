@@ -21,9 +21,9 @@ services:
       - key: APP_KEY
         generateValue: true # Genera automáticamente una clave criptográfica de 32 bytes
       - key: SERVER_NAME
-        value: :10000
+        value: "http://"
       - key: PORT
-        value: 10000
+        value: 80
       
       # Conexión a Base de Datos (Mapeada automáticamente desde la base de datos de Render)
       - key: DB_CONNECTION

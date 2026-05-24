@@ -1,5 +1,6 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
+import { API_URL } from './axios';
 
 // Expose Pusher to global window context for Echo compatibility
 (window as any).Pusher = Pusher;
@@ -13,7 +14,7 @@ export const initEcho = (token: string) => {
     wssPort: parseInt(import.meta.env.VITE_REVERB_PORT || '8080'),
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME || 'http') === 'https',
     enabledTransports: ['ws', 'wss'],
-    authEndpoint: `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/broadcasting/auth`,
+    authEndpoint: `${API_URL}/broadcasting/auth`,
     auth: {
       headers: {
         Authorization: `Bearer ${token}`,

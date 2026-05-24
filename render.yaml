@@ -56,10 +56,7 @@ services:
 
       # Seguridad CORS - Permitirá solo peticiones desde tu frontend en Render
       - key: ALLOWED_ORIGINS
-        fromService:
-          type: web
-          name: restosuite-frontend
-          property: host
+        value: https://restosuite-frontend.onrender.com,http://localhost:5173
 
     # -------------------------------------------------------------------------
     # NOTA SOBRE IMÁGENES LOCALES (OPCIONAL - TIENE COSTO EXTRA EN RENDER):

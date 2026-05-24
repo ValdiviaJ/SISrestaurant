@@ -23,6 +23,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-di
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache && \
     chmod -R 775 /app/storage /app/bootstrap/cache
 
+# Eliminar privilegios de puertos bajos de frankenphp para evitar error "Operation not permitted" en Render
+RUN setcap -r /usr/local/bin/frankenphp
+
 # Puerto expuesto por defecto en la imagen de FrankenPHP
 EXPOSE 80
 EXPOSE 443

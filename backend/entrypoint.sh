@@ -29,4 +29,4 @@ echo "Ejecutando php artisan migrate --force..."
 php artisan migrate --force
 
 echo "Arrancando FrankenPHP..."
-exec frankenphp run --config /etc/caddy/Caddyfile
+exec frankenphp run --config /app/Caddyfile

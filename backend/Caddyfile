@@ -1,0 +1,21 @@
+{
+    # Desactivar la API de administración interna para evitar el escaneo de puertos de Render y errores 403
+    admin off
+
+    # Inicializar FrankenPHP
+    frankenphp
+}
+
+# Escuchar en cualquier host en el puerto 80 (el puerto web del contenedor)
+:80 {
+    # Apuntar al directorio public de Laravel
+    root * public/
+
+    # Habilitar compresión
+    encode zstd gzip
+
+    # Servir archivos estáticos si existen, de lo contrario enrutar a index.php
+    php_server {
+        try_files {path} index.php
+    }
+}

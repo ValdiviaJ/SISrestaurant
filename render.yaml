@@ -12,14 +12,14 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
-        value: false
+        value: "true"
       - key: APP_URL
         fromService:
           type: web
           name: restosuite-api
           property: host
       - key: APP_KEY
-        generateValue: true # Genera automáticamente una clave criptográfica de 32 bytes
+        value: base64:mHos3Ehbsldx5lROS8nerT66qgTpi6oUIsVsUoyzX0U=
       - key: SERVER_NAME
         value: "http://"
       - key: PORT

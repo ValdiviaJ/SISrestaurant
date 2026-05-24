@@ -4,10 +4,11 @@ services:
   # ---------------------------------------------------------------------------
   - type: web
     name: restosuite-api
-    env: php
-    buildCommand: cd backend && composer install --no-dev --optimize-autoloader
-    # Ejecuta migraciones automáticamente en cada inicio antes de arrancar Nginx
-    startCommand: php backend/artisan migrate --force && heroku-php-nginx backend/public
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    # Ejecuta migraciones automáticamente en cada inicio antes de arrancar FrankenPHP
+    startCommand: php artisan migrate --force && frankenphp run --config /etc/caddy/Caddyfile
     envVars:
       - key: APP_ENV
         value: production
@@ -20,6 +21,10 @@ services:
           property: host
       - key: APP_KEY
         generateValue: true # Genera automáticamente una clave criptográfica de 32 bytes
+      - key: SERVER_NAME
+        value: :10000
+      - key: PORT
+        value: 10000
       
       # Conexión a Base de Datos (Mapeada automáticamente desde la base de datos de Render)
       - key: DB_CONNECTION

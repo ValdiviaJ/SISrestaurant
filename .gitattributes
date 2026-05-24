@@ -1,0 +1,2 @@
+# Forzar que el script de entrada siempre use finales de línea LF (Unix) en Git
+backend/entrypoint.sh text eol=lf

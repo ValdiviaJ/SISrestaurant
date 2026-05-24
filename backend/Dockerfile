@@ -24,3 +24,9 @@ RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache && \
 EXPOSE 80
 EXPOSE 443
 EXPOSE 10000
+
+# Hacer el entrypoint ejecutable
+RUN chmod +x /app/entrypoint.sh
+
+# Configurar el comando de inicio
+ENTRYPOINT ["/app/entrypoint.sh"]

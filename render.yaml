@@ -7,8 +7,6 @@ services:
     env: docker
     dockerfilePath: backend/Dockerfile
     dockerContext: backend
-    # Ejecuta migraciones automáticamente en cada inicio antes de arrancar FrankenPHP
-    startCommand: php artisan migrate --force && frankenphp run --config /etc/caddy/Caddyfile
     envVars:
       - key: APP_ENV
         value: production

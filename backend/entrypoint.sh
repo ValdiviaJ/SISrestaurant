@@ -11,7 +11,7 @@ for (\$i = 0; \$i < 30; \$i++) {
         \$dbname = getenv('DB_DATABASE');
         \$user = getenv('DB_USERNAME');
         \$pass = getenv('DB_PASSWORD');
-        \$pdo = new PDO('pgsql:host=' + \$host + ';port=' + \$port + ';dbname=' + \$dbname, \$user, \$pass);
+        \$pdo = new PDO('pgsql:host=' . \$host . ';port=' . \$port . ';dbname=' . \$dbname, \$user, \$pass);
         \$dbReady = true;
         break;
     } catch (Exception \$e) {

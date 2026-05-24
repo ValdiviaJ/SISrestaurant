@@ -15,7 +15,9 @@
     encode zstd gzip
 
     # Servir archivos estáticos si existen, de lo contrario enrutar a index.php
-    php_server {
-        try_files {path} index.php
+    route {
+        php_server {
+            try_files {path} index.php
+        }
     }
 }

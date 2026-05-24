@@ -31,5 +31,5 @@ EXPOSE 10000
 # Hacer el entrypoint ejecutable
 RUN chmod +x /app/entrypoint.sh
 
-# Configurar el comando de inicio
-ENTRYPOINT ["/app/entrypoint.sh"]
+# Configurar el comando de inicio ejecutándolo directamente con /bin/sh
+ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
